@@ -1,0 +1,8 @@
+<h2><%= "#{@log.machine_state}" %></h2>
+<h3><%= "#{@log.created_at}" %></h3>
+<p>X Accelleration: <%= @log.log_x_accl %> </p>
+<p>Y Accelleration: <%= @log.log_y_accl %> </p>
+<p>Z Accelleration: <%= @log.log_z_accl %> </p>
+<br>
+<p><%= @log.log_message %> </p>
+<%= link_to 'Back', logs_path%>

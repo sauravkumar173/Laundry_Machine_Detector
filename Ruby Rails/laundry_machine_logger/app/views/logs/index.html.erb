@@ -1,0 +1,56 @@
+
+<h2>Laundry Machine Logger</h2>
+
+<div id=database>
+  <table border = "1">
+    <tr>
+        <th>Laundry Machine State</th>
+        <th>Date Logged</th>
+        <th colspan="3">Action</th>
+    </tr>
+    <% @log.each do |log| %>
+        <tr>
+            <td><%= "#{log.machine_state}" %></td>
+            <td><%= "#{log.created_at}" %></td>
+            <td><%= link_to 'Show', log_path(log.id) %> </td>
+            <td><%= link_to 'Delete', destroy_log_path(log.id), method: :delete, data:{confirm: "Are you sure you want to delete #{log.id}?"} %> </td>
+        </tr>
+        
+    <%end%>
+  </table>
+</div>
+
+<div id='value'>
+  <h3>Laundry Machine Status</h3>
+  <h3>Acceleration Data </h3>
+  <p>X Axis: </p>
+  <p>Y Axis: </p>
+  <p>Z Axis: </p>
+
+</div>
+
+<script>
+window.setInterval(reload, 30000);
+
+function reload() {
+  $( document ).ready(function() {
+      $.ajax({
+        url: "/machine/data",
+        type: "get",
+        success: function(data) {
+          $('#value').replaceWith("<div id='value'><h3>Laundry Machine Status</h3><p>" + data.status + "</p><h3>Acceleration Data </h3> <p> X Axis: "+ data.xVal +"</p><p> Y Axis: "+ data.yVal +"</p><p>Z Axis: "+ data.zVal+"</p></div>")
+
+        },
+        error: function(data) {
+          alert("FAILED");
+        }
+      })
+  });
+}
+
+</script>
+
+
+
+  
+
