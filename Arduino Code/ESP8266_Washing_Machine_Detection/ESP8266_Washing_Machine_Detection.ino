@@ -183,15 +183,15 @@ int detect_machine_stop() {
   for(int i = 0; i < ARRAYLENGTH; i++) {
     // Loops through each element is stored history of data to see if all are considered as
     // a small enough shake
-    if((latestZVal[i] > XMAX_ACCL || latestZVal[i] < XMIN_ACCL)
-        && (latestYVal[i] > XMAX_ACCL || latestYVal[i] < XMIN_ACCL) 
-        && (latestZVal[i] > XMAX_ACCL || latestZVal[i] < XMIN_ACCL)) {
+    if((latestXVal[i] > XMAX_ACCL || latestXVal[i] < XMIN_ACCL)
+        || (latestYVal[i] > YMAX_ACCL || latestYVal[i] < YMIN_ACCL) 
+        || (latestZVal[i] > ZMAX_ACCL || latestZVal[i] < ZMIN_ACCL)) {
 
-      return MACHINE_INPROGRESS;    
+      return 0;    
     } 
   }
   
-  return MACHINE_SUCCESS_STOP;
+  return 1;
 }
 
 /*
@@ -295,7 +295,8 @@ void run_arduino_server(void) {
               }
 
               // Sends JSON data to ruby server
-              sprintf(jsonResponse, "{\"status\": \"%s\",\"xVal\": \"%d\",\"yVal\": \"%d\",\"zVal\": \"%d\"}", machineStatus ,acclData.xReading, acclData.yReading, acclData.zReading);
+              sprintf(jsonResponse, "{\"status\": \"%s\",\"xVal\": \"%d\",\"yVal\": \"%d\",\"zVal\": \"%d\"}", 
+                  machineStatus ,acclData.xReading, acclData.yReading, acclData.zReading);
               Serial.println(jsonResponse);
               client.print(jsonResponse);
             }
